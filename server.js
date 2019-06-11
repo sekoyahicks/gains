@@ -1,9 +1,17 @@
-const express = require('express');
-const app = express();
-const router = express.Router()
+const express = require('express')
+const logger = require('morgan')
+const app = express()
+
+app.use(logger('dev'))
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const PORT = process.env.PORT || 3001;
+app.get('/', (req, res) => {
+  res.send("Hello World")
+})
+
+const PORT = process.env.PORT || 3001
+
 app.listen(PORT, () => {
-    console.log("Magic happening on port " + PORT);
+  console.log('App is up and running on port ' + PORT)
 })
