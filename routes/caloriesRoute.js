@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const caloriesController = require('../controllers/caloriesController')
+const caloriesController = require('../controllers/calories')
 
 router.get('/', caloriesController.index)
 router.post('/', caloriesController.create)

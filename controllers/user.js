@@ -2,7 +2,7 @@
 // const router = express = express.Router()
 
 // const userController = reuire('..controllers/userController')
-let User = require('..models/User');
+let User = require('../models/User');
 
 let userController = {
   index: async (req, res) => {

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const weightController = require('../controllers/weightController')
+const weightController = require('../controllers/weight')
 
 router.get('/', weightController.index)
 router.post('/', weightController.create)

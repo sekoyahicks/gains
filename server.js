@@ -10,15 +10,15 @@ app.use(express.json());
 app.use(logger("dev"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(__dirname + "/client/build/"));
-app.get("/*", (req, res) => {
-  res.sendFile(__dirname + "/client/build/index.html");
-});
+app.use(express.static(`${__dirname}/client/build`));
 
-app.use("/user", userRoute);
+
+app.use("/users", userRoute);
 app.use("/calories", caloriesRoute);
-app.use("weight", weightRoute);
-
+app.use("/weights", weightRoute);
+app.get("/*", (req, res) => {
+    res.sendFile(__dirname + "/client/build/index.html");
+  });
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {

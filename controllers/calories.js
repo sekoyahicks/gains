@@ -1,7 +1,6 @@
 const express = require("express");
-const router = (express = express.Router());
 
-const caloriesController = require("../controllers/caloriesController");
+const Calories = require("../models/calories");
 
 let caloriesController = {
   index: async (req, res) => {

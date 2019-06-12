@@ -1,7 +1,6 @@
 const express = require("express");
-const router = (express = express.Router());
 
-const weightController = require("../controllers/weightController");
+const Weight = require("../models/weight");
 
 let weightController = {
   index: async (req, res) => {

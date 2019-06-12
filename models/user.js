@@ -1,4 +1,4 @@
-const mongoose = require('..db/connection.js')
+const mongoose = require('../db/connection.js')
 const Schema = mongoose.Schema
 
 const User = new Schema ({
@@ -6,4 +6,4 @@ const User = new Schema ({
     password: String
 })
 
-module.exports = mongoose.user('User', User)
+module.exports = mongoose.model('User', User)
