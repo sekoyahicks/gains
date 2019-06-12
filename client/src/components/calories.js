@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import images from "../images/clear-road.png";
 
 // const CaloriesWrapper = styled.div`
 //   display: flex;
@@ -69,7 +68,7 @@ class calories extends Component {
 
   render() {
     return (
-      <CaloriesWrapper>
+        <div>
         <h1>Calories</h1>
         <div>
           {this.state.calories.description}
@@ -97,7 +96,7 @@ class calories extends Component {
             </Link>
           </div>
         </div>
-      </CaloriesWrapper>
+        </div>
     );
   }
 }

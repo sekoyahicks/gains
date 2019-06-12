@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import images from '../images/clear-road.png';
 
 // const TodoWrapper = styled.div`
 //     display: flex;
@@ -17,7 +16,7 @@ import images from '../images/clear-road.png';
 //     color: white;
 //     text-decoration-line: underline;
 //     text-shadow:
-//     -1px -1px 0 #000,  
+//     -1px -1px 0 #000,
 //     1px -1px 0 #000,
 //     -1px 1px 0 #000,
 //      1px 1px 0 #000;
@@ -36,7 +35,7 @@ import images from '../images/clear-road.png';
 //     background: transparent;
 //     border-radius: 35%;
 //     outline: .5em;
-//     }   
+//     }
 // `
 
 class users extends Component {
@@ -44,7 +43,7 @@ class users extends Component {
     users: [],
     newUser: {
       description: ""
-    },
+    }
   };
 
   componentDidMount = () => {
@@ -54,13 +53,13 @@ class users extends Component {
     });
   };
 
-    handleChange = (e) => {
-      const cloneNewUser = {...this.state.newUser}
-      cloneNewUser[e.target.name] = e.target.value
-      this.setState({newUser: cloneNewUser})
-    }
+  handleChange = e => {
+    const cloneNewUser = { ...this.state.newUser };
+    cloneNewUser[e.target.name] = e.target.value;
+    this.setState({ newUser: cloneNewUser });
+  };
 
-    createUser = e => {
+  createUser = e => {
     e.preventDefault();
     axios
       .post("/users", {
@@ -76,36 +75,40 @@ class users extends Component {
             description: ""
           },
           // isTodoItemDisplayed: false,
-          user: user
+        //   user: user
         });
       });
   };
- 
+
   deleteUser = userId => {
     axios.delete(`/users/${userId}`).then(res => {
-    const  userClone = this.state.user.filter(item => item._id !== userId)
+      const userClone = this.state.user.filter(item => item._id !== userId);
 
-        this.setState({user: userClone})
-    })
-};
-  
-  render() { 
+      this.setState({ user: userClone });
+    });
+  };
+
+  render() {
     return (
-      <UserWrapper>
+      <div>
         <h1>Users</h1>
-        {this.state.user.map(user => {
+        {this.state.users.map(user => {
           return (
             <div key={user._id}>
-
               <Link to={`/${user._id}`}>{user.description}</Link>
-              <button className='bback'onClick={() => this.deleteUser(user._id)}>✅</button>
+              <button
+                className="bback"
+                onClick={() => this.deleteUser(user._id)}
+              >
+                ✅
+              </button>
             </div>
           );
         })}
         {/* <button onClick={this.toggleTodoItemForm}>+ New TodoItem</button> */}
         {/* {this.state.isTodoItemDisplayed ? ( */}
-          <form onSubmit={this.createUser}>
-            {/* <div>
+        <form onSubmit={this.createUser}>
+          {/* <div>
               <label htmlFor="name">Name</label>
               <input
                 id="name"
@@ -115,20 +118,20 @@ class users extends Component {
                 defaultValue={this.state.newTodoItem.value}
               />
             </div> */}
-            <div>
-              <label htmlFor="description">Users</label>
-              <textarea
-                id="description"
-                type="text"
-                name="description"
-                onChange={this.handleChange}
-                value={this.state.newUser.description}
-              />
-            </div>
-            <button>Add Task</button>
-          </form>
+          <div>
+            <label htmlFor="description">Users</label>
+            <textarea
+              id="description"
+              type="text"
+              name="description"
+              onChange={this.handleChange}
+              value={this.state.newUser.description}
+            />
+          </div>
+          <button>Add Task</button>
+        </form>
         {/* ) : null} */}
-    </UserWrapper>
+      </div>
     );
   }
 }

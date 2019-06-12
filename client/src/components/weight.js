@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import images from "../images/clear-road.png";
 
 // const weightWrapper = styled.div`
 //   display: flex;
@@ -90,7 +89,7 @@ class weight extends Component {
 
   render() {
     return (
-      <WeightWrapper>
+      <div>
         <h1>Weight Gains</h1>
         {this.state.weight.map(weight => {
           return (
@@ -119,7 +118,7 @@ class weight extends Component {
           </div>
           <button>Add Task</button>
         </form>
-      </WeightWrapper>
+      </div>
     );
   }
 }
