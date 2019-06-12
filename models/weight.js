@@ -8,4 +8,4 @@ const Weight = new Schema ({
     weightLost: Number
 })
 
-module.exports = mongoose.model('Calories', Calories)
+module.exports = mongoose.model('Weight', Weight)

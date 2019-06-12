@@ -6,4 +6,4 @@ const User = new Schema ({
     password: String
 })
 
-module.exports = mongoose.user('User', ExcusesList)
+module.exports = mongoose.user('User', User)
