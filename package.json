@@ -19,5 +19,12 @@
   "bugs": {
     "url": "https://github.com/sekoyahicks/gains/issues"
   },
-  "homepage": "https://github.com/sekoyahicks/gains#readme"
+  "homepage": "https://github.com/sekoyahicks/gains#readme",
+  "dependencies": {
+    "concurrently": "^4.1.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.5.15",
+    "morgan": "^1.9.1"
+  }
 }
