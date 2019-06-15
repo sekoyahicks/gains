@@ -3,6 +3,10 @@
 
 // const userController = require('..controllers/userController')
 let User = require('../models/user');
+let Calories = require('../models/calories');
+let Weight = require('../models/weight');
+
+
 
 const CLIENT_ID = process.env.REACT_APP_GAINS_GOOGLE_CLIENT_ID
 const {OAuth2Client} = require('google-auth-library');
@@ -80,7 +84,25 @@ let userController = {
       console.log(err);
       res.status(500).json(err);
     }
-  }
+  },
+  calories: async (req, res) => {
+    try {
+      const userId = req.params.id
+      const calories = await Calories.find({userId: userId});
+      res.json(calories);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  weight: async (req, res) => {
+    try {
+      const userId = req.params.id
+      const weight = await Weight.find({userId: userId});
+      res.json(weight);
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
 
 module.exports = userController;

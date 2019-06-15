@@ -9,7 +9,7 @@ import Weight from './components/weight.js'
 class App extends Component {
   state = {
     // user: null
-    user: {"_id":"5d0434b9c8e2331287c6a48f","googleId":"116847055463028164541","__v":0,"email":"sekoyahicks@gmail.com","name":"Sekoya Hicks"}
+    user: {_id:"5d0434b9c8e2331287c6a48f","googleId":"116847055463028164541","__v":0,"email":"sekoyahicks@gmail.com","name":"Sekoya Hicks"}
 
   }
 

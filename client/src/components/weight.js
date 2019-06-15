@@ -43,7 +43,8 @@ class weight extends Component {
       weightGoal: 135,
       currentWeight: 125,
       weightGained: 0,
-      weightLost: 0
+      weightLost: 0,
+      userId: this.props.user._id
     },
     isEditDisplayed: false,
     editWeight: {
@@ -51,17 +52,38 @@ class weight extends Component {
       currentWeight : 0,
       weightGained : 0,
       weightLost : 0,
-
+      userId: this.props.user._id
     }
   };
 
+  
   componentDidMount = async () => {
-    const res = await axios.get("/weight");
-    const caloriesResponse = await axios.get("/calories");
-    console.log(res.data);
-    this.setState({ weight: res.data, calories: caloriesResponse.data });
-    console.log(caloriesResponse.data);
+    await this.refreshPage()
   };
+
+  refreshPage = async () => {
+    const weightListResponse = await axios.get(`/users/${this.props.user._id}/weight`);
+    const caloriesResponse = await axios.get(`/users/${this.props.user._id}/calories`);
+    this.setState({
+      weight: weightListResponse.data,
+      calories: caloriesResponse.data,
+      newWeight: {
+        weightGoal: 135,
+        currentWeight: 125,
+        weightGained: 0,
+        weightLost: 0,
+        userId: this.props.user._id
+      },
+      editWeight: {
+        weightGoal : 0,
+        currentWeight : 0,
+        weightGained : 0,
+        weightLost : 0,
+        userId: this.props.user._id
+      },
+      isEditDisplayed: false,
+    });
+  }
 
   onEditEnabled = weight => {
     this.setState({ editWeight: weight, isEditDisplayed: true });
@@ -78,46 +100,21 @@ class weight extends Component {
     this.setState({ editWeight: cloneEditWeight });
   };
 
-
   editWeight = async e => {
     e.preventDefault();
     await axios.patch(`/weight/${this.state.editWeight._id}`, this.state.editWeight);
-    const weightListResponse = await axios.get("/weight");
-
-    this.setState({
-      newWeight: {
-        weightGoal: 135,
-        currentWeight: 125,
-        weightGained: 0,
-        weightLost: 0
-      },
-      // isweightDisplayed: false,
-      isEditDisplayed:false,
-      weight: weightListResponse.data
-    });
+    await this.refreshPage()
   };
   
   createWeight = async e => {
     e.preventDefault();
     await axios.post("/weight", this.state.newWeight);
-    const weightListResponse = await axios.get("/weight");
-
-    this.setState({
-      newWeight: {
-        weightGoal: 135,
-        currentWeight: 125,
-        weightGained: 0,
-        weightLost: 0
-      },
-      // isweightDisplayed: false,
-      weight: weightListResponse.data
-    });
+    await this.refreshPage()
   };
 
   deleteweight = async weightId => {
     await axios.delete(`/weight/${weightId}`);
-    const weightClone = this.state.weight.filter(item => item._id !== weightId);
-    this.setState({ weight: weightClone });
+    await this.refreshPage()
   };
 
   render() {
@@ -125,13 +122,11 @@ class weight extends Component {
       <div>
         <h1>Weight Gains</h1>
         {this.props.user.email} - {this.props.user.name}
-     
-
-
         {this.state.isEditDisplayed && <div>
             <h2>Edit Weight Entry</h2>
             <form onSubmit={this.editWeight}>
           <label htmlFor="weightGoal">Weight Goal</label>
+          
           <input
             type="number"
             id="weightGoal"
