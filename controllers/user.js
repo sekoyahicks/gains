@@ -1,15 +1,9 @@
-// const express = require('express')
-// const router = express = express.Router()
+let User = require("../models/user");
+let Calories = require("../models/calories");
+let Weight = require("../models/weight");
 
-// const userController = require('..controllers/userController')
-let User = require('../models/user');
-let Calories = require('../models/calories');
-let Weight = require('../models/weight');
-
-
-
-const CLIENT_ID = process.env.REACT_APP_GAINS_GOOGLE_CLIENT_ID
-const {OAuth2Client} = require('google-auth-library');
+const CLIENT_ID = process.env.REACT_APP_GAINS_GOOGLE_CLIENT_ID;
+const { OAuth2Client } = require("google-auth-library");
 const loginClient = new OAuth2Client(CLIENT_ID);
 
 let userController = {
@@ -66,20 +60,26 @@ let userController = {
       res.status(500).json(err);
     }
   },
-  login: async(req, res) => {
+  login: async (req, res) => {
     try {
+      //Loggin in based on the Google instructions https://developers.google.com/identity/sign-in/web/backend-auth
       const token = req.body.token;
       const googleResponse = await loginClient.verifyIdToken({
         idToken: token,
-        audience: CLIENT_ID 
-      })
+        audience: CLIENT_ID
+      });
 
-      const payload = googleResponse.payload
-      const googleUserId = payload.sub
+      const payload = googleResponse.payload;
+      const googleUserId = payload.sub;
 
-      const  query = {googleId: googleUserId}
-      const user = await User.findOneAndUpdate(query, {email: payload.email, name: payload.name}, {upsert: true})
-      res.json(user)
+      //Find the saved user and create it if it doesn't exist
+      const query = { googleId: googleUserId };
+      const user = await User.findOneAndUpdate(
+        query,
+        { email: payload.email, name: payload.name },
+        { upsert: true }
+      );
+      res.json(user);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
@@ -87,8 +87,10 @@ let userController = {
   },
   calories: async (req, res) => {
     try {
-      const userId = req.params.id
-      const calories = await Calories.find({userId: userId});
+      const userId = req.params.id;
+
+      //Mongoose search based on our own user id
+      const calories = await Calories.find({ userId: userId });
       res.json(calories);
     } catch (err) {
       console.log(err);
@@ -96,13 +98,14 @@ let userController = {
   },
   weight: async (req, res) => {
     try {
-      const userId = req.params.id
-      const weight = await Weight.find({userId: userId});
+      const userId = req.params.id;
+      //Mongoose search based on our own user id
+      const weight = await Weight.find({ userId: userId });
       res.json(weight);
     } catch (err) {
       console.log(err);
     }
-  },
+  }
 };
 
 module.exports = userController;

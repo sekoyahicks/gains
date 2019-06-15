@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import axios from 'axios'
 
 import Login from './components/login.js'
-import user from './components/user.js'
-import calories from './components/calories.js'
 import Weight from './components/weight.js'
 
 class App extends Component {
@@ -30,8 +28,6 @@ class App extends Component {
           <Switch>
             {this.state.user === null && <Route path="/" render={() => <Login onLogin={this.login}/>} />}
             <Route path="/" render={() => <Weight onUserDeleted={this.deleteAccount} user={this.state.user}/>}/>
-            <Route exact path="/" component={user}/>
-            <Route exact path="/calories" component={calories}/>
           </Switch>
         </div>
       </Router>

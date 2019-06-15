@@ -10,7 +10,6 @@ router.patch('/:id', userController.update)
 router.delete('/:id', userController.delete)
 
 router.post('/login', userController.login)
-
 router.get('/:id/weight', userController.weight)
 router.get('/:id/calories', userController.calories)
 

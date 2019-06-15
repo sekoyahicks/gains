@@ -102,6 +102,7 @@ class Weight extends Component {
   };
 
 
+  //New calories for change
   handleCaloriesChange = e => {
     const cloneNewCalories = { ...this.state.newCalories };
     cloneNewCalories[e.target.name] = e.target.value;
@@ -120,9 +121,13 @@ class Weight extends Component {
   };
 
 
+  //This is so we can view the weight edit form
   onEditEnabled = weight => {
     this.setState({ editWeight: weight, isEditDisplayed: true });
   };
+
+
+  //New Weight form change so we can type in the form
   handleChange = e => {
     const cloneNewWeight = { ...this.state.newWeight };
     cloneNewWeight[e.target.name] = e.target.value;
@@ -130,12 +135,14 @@ class Weight extends Component {
   };
 
 
+  //So we can edit the weight
   handleEditChange = e => {
     const cloneEditWeight = { ...this.state.editWeight };
     cloneEditWeight[e.target.name] = e.target.value;
     this.setState({ editWeight: cloneEditWeight });
   };
 
+  //Saves to the backend
   editWeight = async e => {
     e.preventDefault();
     await axios.patch(
@@ -168,9 +175,13 @@ class Weight extends Component {
     );
   }
 
+
+  //A way to create comonents within another component
   CaloriesComponent = () => (
     <div>
       <h1>Calories</h1>
+
+      {/* Diplay all the calories */}
       {this.state.calories.map(calories => (
         <div key={calories._id}>
           <h2>Calories Entry</h2>
@@ -209,6 +220,8 @@ class Weight extends Component {
     <div>
       <h1>Weight Gains</h1>
       {this.state.isEditDisplayed && <this.EditWeightForm />}
+
+      {/* Display all the weights */}
       {this.state.weight.map(weight => (
         <div key={weight._id}>
           <h2>Weight Entry</h2>
@@ -303,32 +316,6 @@ class Weight extends Component {
           name="weightLost"
           value={this.state.editWeight.weightLost}
           onChange={this.handleEditChange}
-        />
-        <button>Save</button>
-      </form>
-    </div>
-  );
-
-  EditCaloriesForm = () => (
-    <div>
-      <h2>Edit Calories Entry</h2>
-      <form onSubmit={this.editCalories}>
-        <label htmlFor="caloriesNeed">Calories Needed</label>
-        <input
-          type="number"
-          id="caloriesNeed"
-          name="caloriesNeed"
-          value={this.state.editCalories.caloriesNeed}
-          onChange={this.handleEditCaloriesChange}
-        />
-
-        <label htmlFor="caloriesConsumed">Calories Consumed</label>
-        <input
-          type="number"
-          id="caloriesConsumed"
-          name="caloriesConsumed"
-          value={this.state.editCalories.caloriesConsumed}
-          onChange={this.handleEditCaloriesChange}
         />
         <button>Save</button>
       </form>

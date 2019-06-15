@@ -11,6 +11,8 @@ class LogIn extends Component {
 
   onSignInSuccess = async response => {
     let tokenId = response.tokenId
+
+    //signs in user on server and creats a new one if it doesn't exist
     let userResponse = await axios.post('/users/login', {token: tokenId})
     this.props.onLogin(userResponse.data)
   };
@@ -29,7 +31,6 @@ class LogIn extends Component {
           autoLoad={true}
           onSuccess={this.onSignInSuccess}
           onFailure={this.onSignInFailed}
-        //   cookiePolicy={"single_host_origin"}
         />
       </div>
     );
