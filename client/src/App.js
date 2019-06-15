@@ -8,7 +8,9 @@ import Weight from './components/weight.js'
 
 class App extends Component {
   state = {
-    user: null
+    // user: null
+    user: {"_id":"5d0434b9c8e2331287c6a48f","googleId":"116847055463028164541","__v":0,"email":"sekoyahicks@gmail.com","name":"Sekoya Hicks"}
+
   }
 
   login = (user) => {
@@ -20,7 +22,6 @@ class App extends Component {
     return (
       <Router>
         <div>
-
           <Switch>
             {this.state.user === null && <Route path="/" render={() => <Login onLogin={this.login}/>} />}
             <Route path="/" render={() => <Weight user={this.state.user}/>}/>

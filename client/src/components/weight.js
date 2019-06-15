@@ -38,52 +38,86 @@ import { Link } from "react-router-dom";
 class weight extends Component {
   state = {
     weight: [],
+    calories: [],
     newWeight: {
-      description: ""
+      weightGoal: 135,
+      currentWeight: 125,
+      weightGained: 0,
+      weightLost: 0
+    },
+    isEditDisplayed: false,
+    editWeight: {
+      weightGoal : 0,
+      currentWeight : 0,
+      weightGained : 0,
+      weightLost : 0,
+
     }
   };
 
   componentDidMount = async () => {
     const res = await axios.get("/weight");
+    const caloriesResponse = await axios.get("/calories");
     console.log(res.data);
-    this.setState({ weight: res.data });
+    this.setState({ weight: res.data, calories: caloriesResponse.data });
+    console.log(caloriesResponse.data);
   };
 
+  onEditEnabled = weight => {
+    this.setState({ editWeight: weight, isEditDisplayed: true });
+  };
   handleChange = e => {
     const cloneNewWeight = { ...this.state.newWeight };
     cloneNewWeight[e.target.name] = e.target.value;
     this.setState({ newWeight: cloneNewWeight });
   };
 
-  createWeight = e => {
-    e.preventDefault();
-    axios
-      .post("/weight", {
-        name: this.state.newWeight.name,
-        description: this.state.newWeight.description
-      })
-      .then(res => {
-        const weightList = [...this.state.weight];
-        weightList.unshift(res.data);
-        this.setState({
-          newWeight: {
-            // name: "",
-            description: ""
-          },
-          // isweightDisplayed: false,
-          weight: weightList
-        });
-      });
+  handleEditChange = e => {
+    const cloneEditWeight = { ...this.state.editWeight };
+    cloneEditWeight[e.target.name] = e.target.value;
+    this.setState({ editWeight: cloneEditWeight });
   };
 
-  deleteweight = weightId => {
-    axios.delete(`/weight/${weightId}`).then(res => {
-      const weightClone = this.state.weight.filter(
-        item => item._id !== weightId
-      );
 
-      this.setState({ weight: weightClone });
+  editWeight = async e => {
+    e.preventDefault();
+    await axios.patch(`/weight/${this.state.editWeight._id}`, this.state.editWeight);
+    const weightListResponse = await axios.get("/weight");
+
+    this.setState({
+      newWeight: {
+        weightGoal: 135,
+        currentWeight: 125,
+        weightGained: 0,
+        weightLost: 0
+      },
+      // isweightDisplayed: false,
+      isEditDisplayed:false,
+      weight: weightListResponse.data
     });
+  };
+  
+  createWeight = async e => {
+    e.preventDefault();
+    await axios.post("/weight", this.state.newWeight);
+    const weightListResponse = await axios.get("/weight");
+
+    this.setState({
+      newWeight: {
+        weightGoal: 135,
+        currentWeight: 125,
+        weightGained: 0,
+        weightLost: 0
+      },
+      // isweightDisplayed: false,
+      weight: weightListResponse.data
+    });
+  };
+
+  deleteweight = async weightId => {
+    await axios.delete(`/weight/${weightId}`);
+    const weightClone = this.state.weight.filter(item => item._id !== weightId);
+    this.setState({ weight: weightClone });
   };
 
   render() {
@@ -91,30 +125,105 @@ class weight extends Component {
       <div>
         <h1>Weight Gains</h1>
         {this.props.user.email} - {this.props.user.name}
-        {this.state.weight.map(weight => {
-          return (
-            <div key={weight._id}>
-              <Link to={`/${weight._id}`}>{weight.description}</Link>
-              <button
-                className="bback"
-                onClick={() => this.deleteweight(weight._id)}
-              >
-                ✅
-              </button>
-            </div>
-          );
-        })}
-        <form onSubmit={this.createWeight}>
-          <div>
-            <label htmlFor="description">New To-do Task</label>
-            <textarea
-              id="description"
-              type="text"
-              name="description"
-              onChange={this.handleChange}
-              value={this.state.newWeight.description}
-            />
+     
+
+
+        {this.state.isEditDisplayed && <div>
+            <h2>Edit Weight Entry</h2>
+            <form onSubmit={this.editWeight}>
+          <label htmlFor="weightGoal">Weight Goal</label>
+          <input
+            type="number"
+            id="weightGoal"
+            name="weightGoal"
+            value={this.state.editWeight.weightGoal}
+            onChange={this.handleEditChange}
+          />
+
+          <label htmlFor="currentWeight">Current Weight</label>
+          <input
+            type="number"
+            id="currentWeight"
+            name="currentWeight"
+            value={this.state.editWeight.currentWeight}
+            onChange={this.handleEditChange}
+          />
+
+          <label htmlFor="weightGained">Weight Gained</label>
+          <input
+            type="number"
+            id="weightGained"
+            name="weightGained"
+            value={this.state.editWeight.weightGained}
+            onChange={this.handleEditChange}
+          />
+
+          <label htmlFor="weightLost">Weight Lost</label>
+          <input
+            type="number"
+            id="weightLost"
+            name="weightLost"
+            value={this.state.editWeight.weightLost}
+            onChange={this.handleEditChange}
+          />
+          <button>Save</button>
+        </form>
+
+        </div>}
+        {this.state.weight.map(weight => (
+          <div key={weight._id}>
+            <h2>Entry</h2>
+              <div>
+                <p>Goal: {weight.weightGoal}</p>
+                <p>Weight: {weight.currentWeight}</p>
+                <p>Gained: {weight.weightGained}</p>
+                <p>Lost: {weight.weightLost}</p>
+
+                <button onClick={() => this.onEditEnabled(weight)}>
+                  Edit
+                </button>
+              </div>
+            <button onClick={() => this.deleteweight(weight._id)}>
+              Remove
+            </button>
           </div>
+        ))}
+        <form onSubmit={this.createWeight}>
+          <label htmlFor="weightGoal">Weight Goal</label>
+          <input
+            type="number"
+            id="weightGoal"
+            name="weightGoal"
+            value={this.state.newWeight.weightGoal}
+            onChange={this.handleChange}
+          />
+
+          <label htmlFor="currentWeight">Current Weight</label>
+          <input
+            type="number"
+            id="currentWeight"
+            name="currentWeight"
+            value={this.state.newWeight.currentWeight}
+            onChange={this.handleChange}
+          />
+
+          <label htmlFor="weightGained">Weight Gained</label>
+          <input
+            type="number"
+            id="weightGained"
+            name="weightGained"
+            value={this.state.newWeight.weightGained}
+            onChange={this.handleChange}
+          />
+
+          <label htmlFor="weightLost">Weight Lost</label>
+          <input
+            type="number"
+            id="weightLost"
+            name="weightLost"
+            value={this.state.newWeight.weightLost}
+            onChange={this.handleChange}
+          />
           <button>Add Task</button>
         </form>
       </div>
