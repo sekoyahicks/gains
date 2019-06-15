@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+// import styled from "styled-components";
 
 // const weightWrapper = styled.div`
 //   display: flex;
@@ -43,11 +43,10 @@ class weight extends Component {
     }
   };
 
-  componentDidMount = () => {
-    axios.get("/weight").then(res => {
-      console.log(res.data);
-      this.setState({ weight: res.data });
-    });
+  componentDidMount = async () => {
+    const res = await axios.get("/weight");
+    console.log(res.data);
+    this.setState({ weight: res.data });
   };
 
   handleChange = e => {
@@ -91,6 +90,7 @@ class weight extends Component {
     return (
       <div>
         <h1>Weight Gains</h1>
+        {this.props.user.email} - {this.props.user.name}
         {this.state.weight.map(weight => {
           return (
             <div key={weight._id}>
@@ -104,7 +104,6 @@ class weight extends Component {
             </div>
           );
         })}
-
         <form onSubmit={this.createWeight}>
           <div>
             <label htmlFor="description">New To-do Task</label>

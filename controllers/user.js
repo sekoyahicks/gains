@@ -1,8 +1,12 @@
 // const express = require('express')
 // const router = express = express.Router()
 
-// const userController = reuire('..controllers/userController')
+// const userController = require('..controllers/userController')
 let User = require('../models/user');
+
+const CLIENT_ID = process.env.REACT_APP_GAINS_GOOGLE_CLIENT_ID
+const {OAuth2Client} = require('google-auth-library');
+const loginClient = new OAuth2Client(CLIENT_ID);
 
 let userController = {
   index: async (req, res) => {
@@ -49,10 +53,29 @@ let userController = {
   delete: async (req, res) => {
     try {
       const userId = req.params.id;
-      await User.findByIdAndRemove(excuseId);
+      await User.findByIdAndRemove(userId);
       res.json({
         msg: "Successfully Deleted"
       });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  },
+  login: async(req, res) => {
+    try {
+      const token = req.body.token;
+      const googleResponse = await loginClient.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID 
+      })
+
+      const payload = googleResponse.payload
+      const googleUserId = payload.sub
+
+      const  query = {googleId: googleUserId}
+      const user = await User.findOneAndUpdate(query, {email: payload.email, name: payload.name}, {upsert: true})
+      res.json(user)
     } catch (err) {
       console.log(err);
       res.status(500).json(err);

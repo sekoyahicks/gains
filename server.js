@@ -13,9 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(`${__dirname}/client/build`));
 
 
-app.use("/users", userRoute);
 app.use("/calories", caloriesRoute);
-app.use("/weights", weightRoute);
+app.use("/weight", weightRoute);
+app.use("/users", userRoute);
+
 app.get("/*", (req, res) => {
     res.sendFile(__dirname + "/client/build/index.html");
   });

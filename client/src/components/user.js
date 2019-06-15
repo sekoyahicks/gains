@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+// import styled from "styled-components";
 
 // const TodoWrapper = styled.div`
 //     display: flex;
@@ -42,7 +42,8 @@ class users extends Component {
   state = {
     users: [],
     newUser: {
-      description: ""
+      userName: "",
+      email: ""
     }
   };
 
@@ -67,25 +68,23 @@ class users extends Component {
         description: this.state.newUser.description
       })
       .then(res => {
-        const userList = [...this.state.user];
-        userList.unshift(res.data);
+        const users = [...this.state.users, res.data];
         this.setState({
+          users: users,
           newUser: {
             // name: "",
             description: ""
-          },
+          }
           // isTodoItemDisplayed: false,
-        //   user: user
+          //   user: user
         });
       });
   };
 
-  deleteUser = userId => {
-    axios.delete(`/users/${userId}`).then(res => {
-      const userClone = this.state.user.filter(item => item._id !== userId);
-
-      this.setState({ user: userClone });
-    });
+  deleteUser = async userId => {
+    await axios.delete(`/users/${userId}`);
+    let usersResponse = await axios.get('/users')
+    this.setState({ users: usersResponse.data });
   };
 
   render() {
@@ -95,12 +94,12 @@ class users extends Component {
         {this.state.users.map(user => {
           return (
             <div key={user._id}>
-              <Link to={`/${user._id}`}>{user.description}</Link>
+              <Link to={`/${user._id}`}>{user._id}</Link>
               <button
                 className="bback"
                 onClick={() => this.deleteUser(user._id)}
               >
-                ✅
+                X
               </button>
             </div>
           );
@@ -119,7 +118,7 @@ class users extends Component {
               />
             </div> */}
           <div>
-            <label htmlFor="description">Users</label>
+            <label htmlFor="userName">Users</label>
             <textarea
               id="description"
               type="text"
@@ -128,7 +127,7 @@ class users extends Component {
               value={this.state.newUser.description}
             />
           </div>
-          <button>Add Task</button>
+          <button>EMAIL</button>
         </form>
         {/* ) : null} */}
       </div>
