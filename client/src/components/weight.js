@@ -91,7 +91,7 @@ class Weight extends Component {
         userId: this.props.user._id
       },
       isEditDisplayed: false,
-      
+
       calories: caloriesResponse.data,
       newCalories: {
         caloriesNeeded: 2000,
@@ -211,7 +211,7 @@ class Weight extends Component {
       {this.state.isEditDisplayed && <this.EditWeightForm />}
       {this.state.weight.map(weight => (
         <div key={weight._id}>
-          <h2>Entry</h2>
+          <h2>Weight Entry</h2>
           <div>
             <p>Goal: {weight.weightGoal}</p>
             <p>Weight: {weight.currentWeight}</p>
