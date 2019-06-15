@@ -45,7 +45,7 @@ let userController = {
     try {
       const userId = req.params.id;
       const updatedUser = req.body;
-      const savedUser = await User.findByIdAndUpdate(UserId, updatedUser, {
+      const savedUser = await User.findByIdAndUpdate(userId, updatedUser, {
         new: true
       });
       res.json(savedUser);

@@ -152,7 +152,6 @@ class Weight extends Component {
   };
 
   
-
   deleteweight = async weightId => {
     await axios.delete(`/weight/${weightId}`);
     await this.refreshPage();
@@ -161,6 +160,8 @@ class Weight extends Component {
   render() {
     return (
       <div>
+        {this.props.user.email} - {this.props.user.name}
+        <button onClick={this.props.onUserDeleted}>Delete My Account</button>
         <this.WeightComponent />
         <this.CaloriesComponent />
       </div>
@@ -207,7 +208,6 @@ class Weight extends Component {
   WeightComponent = () => (
     <div>
       <h1>Weight Gains</h1>
-      {this.props.user.email} - {this.props.user.name}
       {this.state.isEditDisplayed && <this.EditWeightForm />}
       {this.state.weight.map(weight => (
         <div key={weight._id}>

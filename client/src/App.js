@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom' 
+import axios from 'axios'
 
 import Login from './components/login.js'
 import user from './components/user.js'
@@ -16,13 +17,19 @@ class App extends Component {
     this.setState({user: user})
   }
 
+  deleteAccount = async () => {
+    await axios.delete(`/users/${this.state.user._id}`)
+    console.log("Account deleted")
+    this.setState({user: null})
+  }
+
   render () {
     return (
       <Router>
         <div>
           <Switch>
             {this.state.user === null && <Route path="/" render={() => <Login onLogin={this.login}/>} />}
-            <Route path="/" render={() => <Weight user={this.state.user}/>}/>
+            <Route path="/" render={() => <Weight onUserDeleted={this.deleteAccount} user={this.state.user}/>}/>
             <Route exact path="/" component={user}/>
             <Route exact path="/calories" component={calories}/>
           </Switch>
