@@ -2,27 +2,93 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import image1 from '../images/arm-flex-icon-1.jpeg';
+import image2 from '../images/arm-flex-icon-2.jpeg';
 
 const CaloriesWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-family: "Indie Flower", cursive;
+  margin-top: 5em;
   /* text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000; */
+
+    .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20em;
+}
 `;
+
+
 
 const WeightWrapper = styled.div`
-  display:flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   font-family: "Indie Flower", cursive;
-`;
+  padding-top: 16em;
+
+  
+  
+  h1 {
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    font-family: "Teko", sans-serif;
+    font-size: 5em;
+    position: absolute;
+    z-index: -1;
+    margin-top: 3em;
+  }
+
+  /* .title{
+    display: flex;
+    justify-content: center;
+    text-transform: uppercase;
+    font-family: "Teko", sans-serif;
+    font-size: 5em;
+
+  } */
+ 
+  h2 {
+    display: flex;
+    justify-content: center;
+    font-family: "Teko", sans-serif;
+    
+  }
+
+
+  /* .aside-1 {
+    display: { order: 1;}
+  }
+
+  .aside-2 {
+    display: { order: 2;}
+  } */
+  /* p {
+    display: flex;
+    justify-content: row;
+  } */
+
+  /* label {
+    display: flex;
+    justify-content: row;
+  }
+
+  input {
+    display: flex;
+    justify-content: center;
+  } */
+`
 
 const UserWrapper = styled.div`
-  font-family: "Indie Flower", cursive;
-`
+  font-family: "Teko", sans-serif;
+`;
 
 class Weight extends Component {
   state = {
@@ -48,8 +114,7 @@ class Weight extends Component {
       caloriesNeeded: 3000,
       caloriesConsumed: 0,
       userId: this.props.user._id
-
-    },
+    }
   };
 
   componentDidMount = async () => {
@@ -86,10 +151,9 @@ class Weight extends Component {
         caloriesNeeded: 3000,
         caloriesConsumed: 0,
         userId: this.props.user._id
-      }    
+      }
     });
   };
-
 
   //New calories for change
   handleCaloriesChange = e => {
@@ -109,12 +173,10 @@ class Weight extends Component {
     await this.refreshPage();
   };
 
-
   //This is so we can view the weight edit form
   onEditEnabled = weight => {
     this.setState({ editWeight: weight, isEditDisplayed: true });
   };
-
 
   //New Weight form change so we can type in the form
   handleChange = e => {
@@ -122,7 +184,6 @@ class Weight extends Component {
     cloneNewWeight[e.target.name] = e.target.value;
     this.setState({ newWeight: cloneNewWeight });
   };
-
 
   //So we can edit the weight
   handleEditChange = e => {
@@ -147,7 +208,6 @@ class Weight extends Component {
     await this.refreshPage();
   };
 
-  
   deleteweight = async weightId => {
     await axios.delete(`/weight/${weightId}`);
     await this.refreshPage();
@@ -163,18 +223,18 @@ class Weight extends Component {
       </UserWrapper>
     );
   }
-
-
   //A way to create comonents within another component
   CaloriesComponent = () => (
     <CaloriesWrapper>
-      <h1>Calories</h1>
+      {/* <h1>Calories</h1> */}
 
       {/* Diplay all the calories */}
       {this.state.calories.map(calories => (
         <div key={calories._id}>
-          <h2>Calories Entry</h2>
+          <h2>Calories</h2>
           <div>
+            {/* <aside class="aside aside-1">{image1}</aside>
+            <aside class="aside aside-2">{image2}</aside> */}
             <p>Needed : {calories.caloriesNeeded}</p>
             <p>Consumed: {calories.caloriesConsumed}</p>
           </div>
@@ -207,7 +267,9 @@ class Weight extends Component {
 
   WeightComponent = () => (
     <WeightWrapper>
-      <h1>Weight Gains</h1>
+      {/* <h1 className="title">GAINS</h1> */}
+    
+      <h1><img src={image1}/>GAINS<img src={image2}/></h1>
       {this.state.isEditDisplayed && <this.EditWeightForm />}
 
       {/* Display all the weights */}
@@ -225,6 +287,7 @@ class Weight extends Component {
           <button onClick={() => this.deleteweight(weight._id)}>Remove</button>
         </div>
       ))}
+      <div className="form">
       <form onSubmit={this.createWeight}>
         <label htmlFor="weightGoal">Weight Goal</label>
         <input
@@ -263,12 +326,13 @@ class Weight extends Component {
         />
         <button>Add</button>
       </form>
+      </div>
     </WeightWrapper>
   );
 
   EditWeightForm = () => (
     <div>
-      <h2>Edit Weight Entry</h2>
+      <h2>Edit Weight</h2>
       <form onSubmit={this.editWeight}>
         <label htmlFor="weightGoal">Weight Goal</label>
 
