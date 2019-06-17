@@ -4,6 +4,10 @@ import styled from "styled-components";
 import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 
+const LoginWrapper= styled.div`
+  
+`
+
 class LogIn extends Component {
   state = {
     signInComplete: false
@@ -23,7 +27,7 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div>
+      <LoginWrapper>
         <h1>User is not logged in. Login with Google to use the site</h1>
         <GoogleLogin
           clientId={process.env.REACT_APP_GAINS_GOOGLE_CLIENT_ID}
@@ -32,7 +36,7 @@ class LogIn extends Component {
           onSuccess={this.onSignInSuccess}
           onFailure={this.onSignInFailed}
         />
-      </div>
+      </LoginWrapper>
     );
   }
 }

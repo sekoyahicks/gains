@@ -62,7 +62,7 @@ let userController = {
   },
   login: async (req, res) => {
     try {
-      //Loggin in based on the Google instructions https://developers.google.com/identity/sign-in/web/backend-auth
+      //Loggin is based on the Google instructions https://developers.google.com/identity/sign-in/web/backend-auth
       const token = req.body.token;
       const googleResponse = await loginClient.verifyIdToken({
         idToken: token,

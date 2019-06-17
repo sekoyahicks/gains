@@ -1,39 +1,28 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import styled from "styled-components";
+import styled from "styled-components";
 
-// const weightWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: space-evenly;
-//   height: 100vh;
-//   font-family: "Indie Flower", cursive;
-//   background-color: darkgreen;
-//   background-image: url(${images});
-//   background-size: cover;
-//   color: white;
-//   text-decoration-line: underline;
-//   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-//     1px 1px 0 #000;
+const CaloriesWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  height: 100vh;
+  font-family: "Indie Flower", cursive;
+  /* text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000; */
+`;
 
-//   h1 {
-//     font-size: 4em;
-//   }
+const WeightWrapper = styled.div`
+  display:flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-family: "Indie Flower", cursive;
+`;
 
-//   a {
-//     font-size: 2em;
-//     color: white;
-//   }
-
-//   .bback {
-//     font-size: 1.5em;
-//     background: transparent;
-//     border-radius: 35%;
-//     outline: 0.5em;
-//   }
-// `;
+const UserWrapper = styled.div`
+  font-family: "Indie Flower", cursive;
+`
 
 class Weight extends Component {
   state = {
@@ -56,7 +45,7 @@ class Weight extends Component {
 
     calories: [],
     newCalories: {
-      caloriesNeeded: 2000,
+      caloriesNeeded: 3000,
       caloriesConsumed: 0,
       userId: this.props.user._id
 
@@ -94,7 +83,7 @@ class Weight extends Component {
 
       calories: caloriesResponse.data,
       newCalories: {
-        caloriesNeeded: 2000,
+        caloriesNeeded: 3000,
         caloriesConsumed: 0,
         userId: this.props.user._id
       }    
@@ -166,19 +155,19 @@ class Weight extends Component {
 
   render() {
     return (
-      <div>
+      <UserWrapper>
         {this.props.user.email} - {this.props.user.name}
         <button onClick={this.props.onUserDeleted}>Delete My Account</button>
         <this.WeightComponent />
         <this.CaloriesComponent />
-      </div>
+      </UserWrapper>
     );
   }
 
 
   //A way to create comonents within another component
   CaloriesComponent = () => (
-    <div>
+    <CaloriesWrapper>
       <h1>Calories</h1>
 
       {/* Diplay all the calories */}
@@ -213,11 +202,11 @@ class Weight extends Component {
         />
         <button>Add</button>
       </form>
-    </div>
+    </CaloriesWrapper>
   );
 
   WeightComponent = () => (
-    <div>
+    <WeightWrapper>
       <h1>Weight Gains</h1>
       {this.state.isEditDisplayed && <this.EditWeightForm />}
 
@@ -274,7 +263,7 @@ class Weight extends Component {
         />
         <button>Add</button>
       </form>
-    </div>
+    </WeightWrapper>
   );
 
   EditWeightForm = () => (
