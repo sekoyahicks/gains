@@ -10,9 +10,9 @@ https://trello.com/b/kTlgm2LB/gains
 
 ## Whiteboard/Wireframe
 
-<img src="/public/images/wire1.jpg" width=200>
-<img src="/public/images/wire2.jpg" width=200>
-<img src="/public/images/wire3.jpg" width=200>
+<img src="/src/images/wire1.jpg" width=200>
+<img src="/src/images/wire2.jpg" width=200>
+<img src="/src/images/wire3.jpg" width=200>
 
 ## Stretch Goals
 *In the very near future, I plan to incorporate a calendar within the app so that it's more accurate and beneficial to users
