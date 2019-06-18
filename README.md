@@ -10,7 +10,7 @@ https://trello.com/b/kTlgm2LB/gains
 
 ## Whiteboard/Wireframe
 
-<img src="/src/images/wire1.jpg" width=200>
+<img src="client/src/images/wire1.jpg" width=200>
 <img src="/src/images/wire2.jpg" width=200>
 <img src="/src/images/wire3.jpg" width=200>
 
